@@ -7,5 +7,5 @@ pack {
   name = "mygento_traefik"
   description = "Traefik"
   url = "https://github.com/luckyraul/nomad-pack/packs/traefik"
-  version = "0.0.1"
+  version = "0.0.2"
 }

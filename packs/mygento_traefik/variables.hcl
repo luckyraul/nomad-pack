@@ -4,6 +4,30 @@ variable "job_name" {
   default     = ""
 }
 
+variable "job_type" {
+  description = "The job type"
+  type        = string
+  default     = "system"
+}
+
+variable "node_class" {
+  description = "Node Class Constraint"
+  type        = string
+  default     = ""
+}
+
+variable "proxy_to" {
+  description = "The address to proxy in proxy mode"
+  type        = string
+  default     = ""
+}
+
+variable "proxy_from" {
+  description = "The traeffik router config"
+  type        = string
+  default     = ""
+}
+
 variable "datacenters" {
   description = "A list of datacenters in the region which are eligible for task placement."
   type        = list(string)
@@ -18,7 +42,7 @@ variable "traefik_task_resources" {
   })
   default = {
     cpu    = 200,
-    memory = 256,
+    memory = 128,
   }
 }
 
