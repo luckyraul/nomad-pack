@@ -24,7 +24,7 @@ job [[ template "job_name" . ]] {
         task "traefik" {
             driver = "docker"
             config {
-                image = "traefik:v2.9"
+                image = "traefik:v2.10"
                 ports = ["http", "https"]
                 network_mode = "host"
                 args = [
@@ -33,8 +33,8 @@ job [[ template "job_name" . ]] {
                     "--certificatesresolvers.mygentoresolver.acme.email=[[ .mygento_traefik.acme_email ]]",
                     "--certificatesresolvers.mygentoresolver.acme.storage=/acme/acme.json",
                     "--certificatesresolvers.mygentoresolver.acme.httpchallenge.entrypoint=web",
-                    "--providers.nomad.exposedByDefault=false",
                     "--providers.nomad=true",
+                    "--providers.nomad.exposedByDefault=false",
                     "--providers.nomad.endpoint.address=http://${NOMAD_HOST_IP_http}:4646",
                     "--accesslog=true"
                     # "--api.dashboard=true",
