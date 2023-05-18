@@ -11,6 +11,7 @@ job [[ template "job_name" . ]] {
         network {
             port "http" {
                 to = 80
+                host_network = "private"
             }
         }
 
