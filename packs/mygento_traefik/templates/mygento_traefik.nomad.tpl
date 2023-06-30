@@ -55,9 +55,16 @@ job [[ template "job_name" . ]] {
                     "--providers.nomad=true",
                     "--providers.nomad.exposedByDefault=false",
                     "--providers.nomad.endpoint.address=http://${NOMAD_HOST_IP_http}:4646",
+                    "--providers.file.directory=/etc/traefik/dynamic",
                     "--accesslog=true"
                     # "--api.dashboard=true",
                 ]
+
+                mount {
+                    type   = "bind"
+                    source = "local/dynamic"
+                    target = "/etc/traefik/dynamic"
+                }
             }
 
             resources {
@@ -69,8 +76,34 @@ job [[ template "job_name" . ]] {
                 volume      = "certs"
                 destination = "/acme"
             }
+
+            template {
+                data = <<EOH
+tls:
+  options:
+    default:
+      minVersion: VersionTLS12
+      sniStrict: true
+      cipherSuites:
+        # Recommended ciphers for TLSv1.2
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+        # Recommended ciphers for TLSv1.3
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+      curvePreferences:
+        - secp521r1
+        - secp384r1
+    modern:
+      minVersion: VersionTLS13
+EOH
+                destination     = "local/dynamic/tls.yml"
+            }
         }
         [[- end ]]
+
         [[- if eq .mygento_traefik.job_type "proxy" ]]
         task [[ .mygento_traefik.job_name | quote ]] {
             driver = "docker"
