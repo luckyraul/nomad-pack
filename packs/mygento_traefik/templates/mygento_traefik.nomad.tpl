@@ -15,6 +15,15 @@ job [[ template "job_name" . ]] {
             }
         }
 
+        reschedule {
+            delay_function = "constant"
+            unlimited      = true
+        }
+
+        restart {
+            mode = "delay"
+        }
+
         [[ if .mygento_traefik.node_class ]]
         constraint {
             attribute = "${node.class}"

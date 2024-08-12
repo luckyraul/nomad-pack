@@ -42,7 +42,7 @@ variable "traefik_task_resources" {
   })
   default = {
     cpu    = 200,
-    memory = 256,
+    memory = 288,
   }
 }
 
