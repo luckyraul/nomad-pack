@@ -52,7 +52,7 @@ job [[ template "job_name" . ]] {
         task "traefik" {
             driver = "docker"
             config {
-                image = "traefik:v2.11"
+                image = "traefik:v3.5"
                 ports = ["http", "https"]
                 network_mode = "host"
                 args = [
@@ -91,22 +91,12 @@ job [[ template "job_name" . ]] {
 tls:
   options:
     default:
-      minVersion: VersionTLS12
-      sniStrict: true
-      cipherSuites:
-        # Recommended ciphers for TLSv1.2
-        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
-        # Recommended ciphers for TLSv1.3
-        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
-        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
-        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
-      curvePreferences:
-        - secp521r1
-        - secp384r1
-    modern:
       minVersion: VersionTLS13
+      sniStrict: true
+      curvePreferences:
+        - X25519
+        - CurveP256
+        - CurveP384
 EOH
                 destination     = "local/dynamic/tls.yml"
             }
@@ -117,7 +107,7 @@ EOH
         task [[ .mygento_traefik.job_name | quote ]] {
             driver = "docker"
             config {
-                image = "traefik:v2.11"
+                image = "traefik:v3.5"
                 ports = ["http"]
 
                 mount {
