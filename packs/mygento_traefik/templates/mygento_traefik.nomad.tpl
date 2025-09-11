@@ -100,6 +100,19 @@ tls:
 EOH
                 destination     = "local/dynamic/tls.yml"
             }
+            template {
+                data = <<EOH
+entrypoints:
+  websecure:
+    middlewares: 
+      - global-compress@file
+http:
+  middlewares:
+    global-compress:
+      compress:
+EOH
+                destination     = "local/dynamic/compression.yml"
+            }
         }
         [[- end ]]
 
