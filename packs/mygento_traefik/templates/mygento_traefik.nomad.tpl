@@ -52,7 +52,7 @@ job [[ template "job_name" . ]] {
         task "traefik" {
             driver = "docker"
             config {
-                image = "traefik:v3.5"
+                image = "traefik:v3.7"
                 ports = ["http", "https"]
                 network_mode = "host"
                 args = [
@@ -124,7 +124,7 @@ EOH
         task [[ .mygento_traefik.job_name | quote ]] {
             driver = "docker"
             config {
-                image = "traefik:v3.5"
+                image = "traefik:v3.7"
                 ports = ["http"]
 
                 mount {
